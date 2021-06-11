@@ -135,22 +135,17 @@ public class LoginController {
      */
     @PutMapping("/forget-password")
     public ResponseEntity<MessageResponse>changePassword(@RequestBody User user){
-        System.out.println("********************Change Password Begins*************************");
         User dbsuer = userRepository.findByUsername(user.getUsername()).get();
         User cur_user = userRepository.findById(dbsuer.getId()).get();
-        System.out.println("*********************************************");
         boolean isPasswordMatch = passwordEncoder.matches(user.getPassword(), cur_user.getPassword());
         if(isPasswordMatch){
             cur_user.setPassword(passwordEncoder.encode(user.getNewPassword()));
             cur_user.setNewPassword("");
             userRepository.save(cur_user);
             logger.info("User Password changed Successfully");
-            System.out.println("********************Change ends *************************");
 
             return ResponseEntity.ok(new MessageResponse("User Password changed Successfully"));
         }else{
-            System.out.println("********************Change Password ends with failure*************************");
-
             return ResponseEntity.badRequest().body(new MessageResponse("Old Password not matching.. Please enter correct Password"));
         }
     }

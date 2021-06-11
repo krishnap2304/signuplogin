@@ -3,7 +3,6 @@ package com.bootcamp.signuplogin.controller;
 import com.bootcamp.signuplogin.model.Role;
 import com.bootcamp.signuplogin.model.RoleEnum;
 import com.bootcamp.signuplogin.model.User;
-import com.bootcamp.signuplogin.model.UsersList;
 import com.bootcamp.signuplogin.repository.RoleRepository;
 import com.bootcamp.signuplogin.repository.UserRepository;
 import com.bootcamp.signuplogin.request.SignupRequest;

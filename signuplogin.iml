@@ -51,6 +51,12 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.20" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: de.flapdoodle.embed:de.flapdoodle.embed.process:2.1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.11" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: net.java.dev.jna:jna:4.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: net.java.dev.jna:jna-platform:4.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-compress:1.18" level="project" />
     <orderEntry type="library" name="Maven: cn.apiclub.tool:simplecaptcha:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:2.4.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:2.4.5" level="project" />
@@ -95,7 +101,6 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.4" level="project" />
     <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" level="project" />
     <orderEntry type="library" name="Maven: io.github.classgraph:classgraph:4.8.69" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.11" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:swagger-ui:3.38.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:webjars-locator-core:0.46" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.3.6" level="project" />

@@ -46,6 +46,11 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>cn.apiclub.tool</groupId>
 			<artifactId>simplecaptcha</artifactId>
 			<version>1.2.2</version>
@@ -89,16 +94,12 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>
+
+    </dependencies>
 
 	<build>
 		<plugins>

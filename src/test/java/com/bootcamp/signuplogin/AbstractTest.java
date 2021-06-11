@@ -1,6 +1,8 @@
 package com.bootcamp.signuplogin;
 
 import java.io.IOException;
+
+import com.bootcamp.signuplogin.controller.RegistrationController;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = SignuploginApplication.class)
+@SpringBootTest(classes = {SignuploginApplication.class, RegistrationController.class})
 @WebAppConfiguration
 public abstract class AbstractTest {
     protected MockMvc mvc;

@@ -15,6 +15,12 @@
 	<description>Project for doing the signup and login </description>
 	<properties>
 		<java.version>1.8</java.version>
+		<jacoco.version>0.8.3</jacoco.version>
+		<jacoco.path>${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar</jacoco.path>
+		<jacoco.report>${project.build.directory}/jacoco.exec</jacoco.report>
+		<jacoco.agentConfig>-javaagent:${jacoco.path}=destfile=${jacoco.report}</jacoco.agentConfig>
+		<surefire.version>2.22.1</surefire.version>
+		<failsafe.version>2.22.1</failsafe.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -92,9 +98,22 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>org.jacoco.agent</artifactId>
+			<version>${jacoco.version}</version>
+			<classifier>runtime</classifier>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
 
 	<build>
+		<pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -112,7 +131,52 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${dependency.version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<failOnError>false</failOnError>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.jacoco</groupId>
+									<artifactId>org.jacoco.agent</artifactId>
+									<version>${jacoco.version}</version>
+									<classifier>runtime</classifier>
+									<destFileName>jacocoagent.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.jacoco</groupId>
+									<artifactId>org.jacoco.cli</artifactId>
+									<version>${jacoco.version}</version>
+									<classifier>nodeps</classifier>
+									<destFileName>jacococli.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- unit tests (with code coverage agent enabled) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire.version}</version>
+				<configuration>
+					<argLine>${jacoco.agentConfig}</argLine>
+					<excludes>
+						<exclude>**/*IntegrationTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 		</plugins>
+		</pluginManagement>
 	</build>
 
 </project>

@@ -1,4 +1,4 @@
-package com.bootcamp.signuplogin;
+package com.bootcamp.signuplogin.controller;
 
 import com.bootcamp.signuplogin.model.Role;
 import com.bootcamp.signuplogin.model.RoleEnum;
@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 

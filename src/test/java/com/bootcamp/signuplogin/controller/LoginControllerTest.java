@@ -1,5 +1,6 @@
-package com.bootcamp.signuplogin;
+package com.bootcamp.signuplogin.controller;
 
+import com.bootcamp.signuplogin.SignuploginApplication;
 import com.bootcamp.signuplogin.controller.LoginController;
 import com.bootcamp.signuplogin.controller.RegistrationController;
 import com.bootcamp.signuplogin.model.User;
@@ -61,6 +62,7 @@ public class LoginControllerTest {
         MvcResult mvcResult = null ;
         User user = getMockedUserForLogin();
         user.setPassword("asdjfasjl");
+        user.setCaptchaResp("adfadadssdfsdasdadssafassd");
         mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri,user)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         int status = mvcResult.getResponse().getStatus();

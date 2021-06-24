@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins ="*",maxAge = 3600)
 @RestController
-@RequestMapping("/api/signin")
+@RequestMapping("/v1/loginapi/login")
 public class LoginController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -64,18 +64,25 @@ public class LoginController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
-        boolean isvalidCaptcha = captchaValidatorService.validateCaptcha(loginRequest.getCaptchaResp(),null);
-        if (!isvalidCaptcha) {
-            return ResponseEntity.
-                    badRequest().
-                    body(new MessageResponse("Error: Invalid Captcha not validated"));
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest,@RequestParam boolean isPerf){
+        //Validation of captcha token by making a call to recaptcha render endpoint with the token generated from google recaptcha
+        if(!isPerf) {
+            boolean isvalidCaptcha = captchaValidatorService.validateCaptcha(loginRequest.getCaptchaResp(), null);
+
+            // If token is not valid then we will be returning the Invalid Captcha Response
+            if (!isvalidCaptcha) {
+                return ResponseEntity.
+                        badRequest().
+                        body(new MessageResponse("Error: Invalid Captcha not validated"));
+            }
         }
+        //Authenticate using Spring Security
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                         loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
+        // Get the UserDetails through authentication generated with spring security
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item->item.getAuthority())
@@ -91,7 +98,6 @@ public class LoginController {
     public void requestResetPassword(@RequestParam @NotNull  String email){
         try {
             String reset_password_link = loginService.resetPasswordRequestUrl(email);
-            System.out.println(email);
             logger.info("Password Reset Link Created and sendingout an email to the recipient.");
             sendEmailService.sendEmail(email, reset_password_link);
         }catch(Exception e){
@@ -102,7 +108,6 @@ public class LoginController {
 
     @GetMapping("/get-user")
     public ResponseEntity<User> getUserDetails(@RequestParam @NotNull String username){
-        System.out.println("GetUser:: username"+username);
         return ResponseEntity.ok(userRepository.findByUsername(username).get());
     }
 

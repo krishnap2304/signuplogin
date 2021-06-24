@@ -24,7 +24,7 @@ import java.util.Set;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/signup")
+@RequestMapping("/v1/signupapi/register")
 public class RegistrationController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -50,18 +50,25 @@ public class RegistrationController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
-        boolean isvalidCaptcha = captchaValidatorService.validateCaptcha(signupRequest.getCaptchaResp(), null);
-        if (!isvalidCaptcha) {
-            return ResponseEntity.
-                    badRequest().
-                    body(new MessageResponse("Error: Invalid Captcha not validated"));
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest, @RequestParam boolean isPerf) {
+
+        // validating the google recaptcha token by hitting the recaptcha renderer url.
+        if(!isPerf) {
+            boolean isvalidCaptcha = captchaValidatorService.validateCaptcha(signupRequest.getCaptchaResp(), null);
+            // If not valid captcha token then it gets stopped here by providing appropriate message
+            if (!isvalidCaptcha) {
+                return ResponseEntity.
+                        badRequest().
+                        body(new MessageResponse("Error: Invalid Captcha not validated"));
+            }
         }
+        //Checks for user exists
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             return ResponseEntity.
                     badRequest().
                     body(new MessageResponse("Error: Username is not available"));
         }
+        //Checks for user exists by email id
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already registered"));
         }
@@ -70,6 +77,7 @@ public class RegistrationController {
                 , passwordEncoder.encode(signupRequest.getPassword()));
         Set<String> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet();
+        // If roles are not pre-loaded into db sends the error
         if (strRoles == null) {
             return ResponseEntity.
                     badRequest().
@@ -125,8 +133,7 @@ public class RegistrationController {
     }
 
     /**
-     * This method un-resiters the user, by sending out an unregistered event,
-     * sending out an email to the user stating the user unregistered successfully
+     * This method un-resiters the user,
      * and finally that user gets deleted from the user repository.
      *
      * @param username
@@ -135,8 +142,6 @@ public class RegistrationController {
 
     @DeleteMapping("/de-register")
     public ResponseEntity<MessageResponse> deRegisterUser(@RequestParam String username) {
-        //TODO: Need to send out an email that user success un-registered.
-        // Send out an event message to Email Listener
         logger.info("User De-Reistered Successfully");
         userRepository.findByUsername(username).ifPresent(user_to_remove -> userRepository.delete(user_to_remove));
 

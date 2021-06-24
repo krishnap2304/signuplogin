@@ -11,17 +11,37 @@
 	<groupId>com.bootcamp</groupId>
 	<artifactId>signuplogin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>signuplogin</name>
 	<description>Project for doing the signup and login </description>
 	<properties>
 		<java.version>1.8</java.version>
-		<jacoco.version>0.8.3</jacoco.version>
-		<jacoco.path>${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar</jacoco.path>
-		<jacoco.report>${project.build.directory}/jacoco.exec</jacoco.report>
-		<jacoco.agentConfig>-javaagent:${jacoco.path}=destfile=${jacoco.report}</jacoco.agentConfig>
-		<surefire.version>2.22.1</surefire.version>
-		<failsafe.version>2.22.1</failsafe.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<url>http://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/snapshot</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<url>http://repo.spring.io/milestone</url>
+		</pluginRepository>
+
+	</pluginRepositories>
 	<dependencies>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -77,14 +97,18 @@
 			<version>1.5.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>5.3.6</version>
-		</dependency>
-		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>jakarta.mail</artifactId>
 			<version>1.6.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>2.4.0</version>
 		</dependency>
 
 		<dependency>
@@ -103,15 +127,7 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jacoco</groupId>
-			<artifactId>org.jacoco.agent</artifactId>
-			<version>${jacoco.version}</version>
-			<classifier>runtime</classifier>
-			<scope>test</scope>
-		</dependency>
-    </dependencies>
-
+	</dependencies>
 	<build>
 		<pluginManagement>
 		<plugins>
@@ -119,6 +135,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<mainClass>com.bootcamp.signuplogin.SignuploginApplication</mainClass>
 					<profiles>
 						<profile>dev</profile>
 						<profile>prod</profile>
@@ -128,50 +145,6 @@
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${dependency.version}</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<failOnError>false</failOnError>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.jacoco</groupId>
-									<artifactId>org.jacoco.agent</artifactId>
-									<version>${jacoco.version}</version>
-									<classifier>runtime</classifier>
-									<destFileName>jacocoagent.jar</destFileName>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.jacoco</groupId>
-									<artifactId>org.jacoco.cli</artifactId>
-									<version>${jacoco.version}</version>
-									<classifier>nodeps</classifier>
-									<destFileName>jacococli.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- unit tests (with code coverage agent enabled) -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire.version}</version>
-				<configuration>
-					<argLine>${jacoco.agentConfig}</argLine>
-					<excludes>
-						<exclude>**/*IntegrationTest.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

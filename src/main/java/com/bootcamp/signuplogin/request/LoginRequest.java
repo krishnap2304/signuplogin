@@ -4,6 +4,16 @@ public class LoginRequest {
     private String username;
     private String password;
 
+    public boolean isPerf() {
+        return isPerf;
+    }
+
+    public void setPerf(boolean perf) {
+        isPerf = perf;
+    }
+
+    private boolean isPerf;
+
     public String getNewPassword() {
         return newPassword;
     }

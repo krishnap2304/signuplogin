@@ -51,9 +51,6 @@ public class LoginControllerTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE).header("Access-Control-Request-Method", "POST")
                 .header("Origin", "http://localhost")).andReturn();
         int status = mvcResult.getResponse().getStatus();
-        System.out.println(status);
-        System.out.println(mvcResult.getResponse().getContentAsString());
-        System.out.println(mvcResult.getResponse().getErrorMessage());
         assertNotNull(status);
     }
     @Test
@@ -65,9 +62,7 @@ public class LoginControllerTest {
         user.setCaptchaResp("adfadadssdfsdasdadssafassd");
         mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri,user)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
-        int status = mvcResult.getResponse().getStatus();
-        System.out.println(status);
-        assertNotNull(status);
+        assertNotNull(mvcResult.getResponse().getStatus());
     }
 
     @Test
@@ -79,7 +74,6 @@ public class LoginControllerTest {
         mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri,user)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
         int status = mvcResult.getResponse().getStatus();
-        System.out.println(status);
         assertNotNull(status);
     }
 

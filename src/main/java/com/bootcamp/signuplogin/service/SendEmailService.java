@@ -35,7 +35,7 @@ public class SendEmailService {
     private String getMailContent(String link) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<p> Hello, <p>").append("<br> Your registration to the site is successful.")
-                .append("Click on the link below to confirm your registration.").append("<br> <a href=\""+link+"\" reset password.");
+                .append("Click on the link below to confirm your registration.").append("<br> <a href=\""+link+"\"");
         return stringBuilder.toString();
     }
 }
